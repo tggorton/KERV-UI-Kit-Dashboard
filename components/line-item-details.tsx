@@ -4,7 +4,8 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import Box from "@mui/material/Box"
-import Grid from "@mui/material/Grid"
+// MUI 7 renamed the classic `item`/`xs` Grid API to GridLegacy; this file uses that API.
+import Grid from "@mui/material/GridLegacy"
 import Typography from "@mui/material/Typography"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
