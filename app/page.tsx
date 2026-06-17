@@ -1,16 +1,14 @@
 "use client"
 
-import { ThemeProvider } from "@mui/material/styles"
-import CssBaseline from "@mui/material/CssBaseline"
-import { theme } from "@/lib/theme"
+import { KervProvider } from "@kerv/ui-kit"
 import KervDashboard from "@/components/kerv-dashboard"
 
 export default function Home() {
+  // KervProvider = ThemeProvider(kervTheme) + CssBaseline + <AppShell/> gradient background.
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <KervProvider>
       <KervDashboard />
-    </ThemeProvider>
+    </KervProvider>
   )
 }
 

@@ -119,18 +119,6 @@ export function LineItemDetails({
             autoFocus
             InputProps={{
               startAdornment: startAdornment,
-              sx: {
-                color: "white",
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(255, 255, 255, 0.3)",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "rgba(255, 255, 255, 0.5)",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#EF0078",
-                },
-              },
             }}
           />
         ) : (
@@ -145,7 +133,7 @@ export function LineItemDetails({
               variant="body1"
               sx={{
                 cursor: "pointer",
-                "&:hover": { color: "#EF0078" },
+                "&:hover": { color: "primary.main" },
                 marginRight: 0.5,
               }}
               onClick={() => setEditingField(label)}
@@ -159,9 +147,9 @@ export function LineItemDetails({
                 onClick={() => setEditingField(label)}
                 aria-label={`Edit ${label.toLowerCase()}`}
                 sx={{
-                  color: "rgba(255, 255, 255, 0.5)",
+                  color: "text.secondary",
                   "&:hover": {
-                    color: "#EF0078",
+                    color: "primary.main",
                   },
                   padding: "2px",
                   marginLeft: "2px",
@@ -193,13 +181,12 @@ export function LineItemDetails({
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: "8px 12px",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  border: "1px solid",
+                  borderColor: "divider",
                   borderRadius: "4px",
-                  backgroundColor: "#333333",
-                  color: "white",
                   cursor: "pointer",
                   "&:hover": {
-                    borderColor: "rgba(255, 255, 255, 0.5)",
+                    borderColor: "divider",
                   },
                 }}
                 role="button"
@@ -219,7 +206,6 @@ export function LineItemDetails({
                     left: 0,
                     right: 0,
                     mt: 1,
-                    bgcolor: "#333333",
                     zIndex: 1000,
                     boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.2)",
                     borderRadius: "4px",
@@ -232,7 +218,6 @@ export function LineItemDetails({
                       onClick={() => handleStatusSelect(option)}
                       sx={{
                         padding: "10px 12px",
-                        color: "white",
                         cursor: "pointer",
                         "&:hover": {
                           bgcolor: "rgba(239, 0, 120, 0.1)",
@@ -261,7 +246,7 @@ export function LineItemDetails({
               alignItems: "center",
               width: "100%",
               cursor: "pointer",
-              "&:hover": { color: "#EF0078" },
+              "&:hover": { color: "primary.main" },
             }}
             onClick={() => setEditingField("Status")}
             role="button"
@@ -280,9 +265,9 @@ export function LineItemDetails({
                 size="small"
                 aria-label="Edit status"
                 sx={{
-                  color: "rgba(255, 255, 255, 0.5)",
+                  color: "text.secondary",
                   "&:hover": {
-                    color: "#EF0078",
+                    color: "primary.main",
                   },
                   padding: "2px",
                   marginLeft: "2px",
@@ -327,7 +312,6 @@ export function LineItemDetails({
               size="small"
               onClick={(event) => onOpenDatePicker("lineItemStart", event)}
               sx={{
-                color: "white",
                 minWidth: "80px",
                 display: "flex",
                 justifyContent: "space-between",
@@ -340,7 +324,7 @@ export function LineItemDetails({
               }}
             >
               {formatDate(startDate)}
-              <CalendarMonthIcon sx={{ color: "#EF0078", fontSize: 18 }} />
+              <CalendarMonthIcon sx={{ color: "primary.main", fontSize: 18 }} />
             </Button>
           </Tooltip>
         </Grid>
@@ -356,7 +340,6 @@ export function LineItemDetails({
               size="small"
               onClick={(event) => onOpenDatePicker("lineItemEnd", event)}
               sx={{
-                color: "white",
                 minWidth: "80px",
                 display: "flex",
                 justifyContent: "space-between",
@@ -369,7 +352,7 @@ export function LineItemDetails({
               }}
             >
               {formatDate(endDate)}
-              <CalendarMonthIcon sx={{ color: "#EF0078", fontSize: 18 }} />
+              <CalendarMonthIcon sx={{ color: "primary.main", fontSize: 18 }} />
             </Button>
           </Tooltip>
         </Grid>
@@ -414,7 +397,6 @@ export function LineItemDetails({
                   sx={{
                     width: "90px",
                     height: "50px",
-                    bgcolor: "#2a2a2a",
                     borderRadius: "4px",
                     overflow: "hidden",
                     flexShrink: 0,

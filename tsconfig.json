@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@kerv/ui-kit": ["./kerv-ui-kit/src/index.ts"],
+      "@kerv/ui-kit/*": ["./kerv-ui-kit/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

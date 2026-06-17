@@ -9,8 +9,8 @@ import Button from "@mui/material/Button"
 import Autocomplete from "@mui/material/Autocomplete"
 import TextField from "@mui/material/TextField"
 import Box from "@mui/material/Box"
-import FormControl from "@mui/material/FormControl"
 import Chip from "@mui/material/Chip"
+import CloseIcon from "@mui/icons-material/Close"
 
 interface AddCreativeDialogProps {
   open: boolean
@@ -40,10 +40,6 @@ export function AddCreativeDialog({ open, onClose, onAdd, options }: AddCreative
       onClose={handleClose}
       PaperProps={{
         sx: {
-          bgcolor: "#383838 !important",
-          background: "#383838 !important",
-          backgroundColor: "#383838 !important",
-          color: "white",
           width: "500px",
           maxWidth: "90vw",
           borderRadius: "8px",
@@ -53,146 +49,72 @@ export function AddCreativeDialog({ open, onClose, onAdd, options }: AddCreative
       <DialogTitle sx={{ pb: 1, fontSize: "18px", fontWeight: 500 }}>Add Creatives</DialogTitle>
       <DialogContent sx={{ pt: 1 }}>
         <Box sx={{ mt: 1 }}>
-          <FormControl fullWidth variant="outlined">
-            <Autocomplete
-              multiple
-              options={options}
-              getOptionLabel={(option) => option.label}
-              value={selectedCreatives}
-              onChange={(_, newValue) => setSelectedCreatives(newValue)}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const tagProps = getTagProps({ index })
-                  const { key, ...otherProps } = tagProps
+          <Autocomplete
+            multiple
+            fullWidth
+            options={options}
+            getOptionLabel={(option) => option.label}
+            value={selectedCreatives}
+            onChange={(_, newValue) => setSelectedCreatives(newValue)}
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => {
+                const tagProps = getTagProps({ index })
+                const { key, ...otherProps } = tagProps
 
-                  return (
-                    <Chip
-                      key={key}
-                      label={option.label}
-                      {...otherProps}
-                      sx={{
-                        bgcolor: "#EF0078",
-                        color: "black",
-                        fontWeight: 500,
-                        borderRadius: "4px",
-                        height: "24px",
-                        "& .MuiChip-deleteIcon": {
-                          color: "black",
-                          "&:hover": {
-                            color: "rgba(0, 0, 0, 0.7)",
-                          },
-                        },
-                      }}
-                    />
-                  )
-                })
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Creative"
-                  placeholder={selectedCreatives.length === 0 ? "Search to Select" : ""}
-                  variant="outlined"
-                  fullWidth
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && selectedCreatives.length > 0) {
-                      e.preventDefault()
-                      handleAdd()
-                    }
-                  }}
-                  sx={{
-                    "& .MuiInputLabel-root": {
-                      backgroundColor: "#383838 !important",
-                      padding: "0 8px !important",
-                      marginLeft: "-4px !important",
-                      marginRight: "-4px !important",
-                      borderRadius: "4px !important",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline legend": {
-                      width: "0 !important",
-                    },
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                    sx: {
-                      color: "rgba(255, 255, 255, 0.7)",
-                      "&.Mui-focused": {
-                        color: "#EF0078",
-                      },
-                      fontSize: "14px",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      transform: "translate(14px, -6px) scale(0.75)",
-                      transformOrigin: "top left",
-                      zIndex: 10,
-                    },
-                  }}
-                  InputProps={{
-                    ...params.InputProps,
-                    sx: {
-                      color: "white",
-                      "&::placeholder": {
-                        color: "white",
-                        opacity: 1,
-                      },
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(255, 255, 255, 0.3)",
-                        borderWidth: "1px",
-                      },
-                      "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "rgba(255, 255, 255, 0.5)",
-                      },
-                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#EF0078",
-                        borderWidth: "2px",
-                      },
-                      "& .MuiAutocomplete-endAdornment": {
-                        "& .MuiButtonBase-root": {
-                          color: "rgba(255, 255, 255, 0.7)",
+                return (
+                  <Chip
+                    key={key}
+                    label={option.label}
+                    {...otherProps}
+                    // Bare "X" instead of MUI's default circle-X (CancelIcon).
+                    deleteIcon={<CloseIcon />}
+                    sx={{
+                      // Neutral grey "selection token" pill (kit grey = action.selected).
+                      // Shape (pill radius) comes from the kit theme's MuiChip override.
+                      bgcolor: "action.selected",
+                      color: "text.primary",
+                      fontWeight: 500,
+                      fontSize: 13,
+                      height: "24px",
+                      "& .MuiChip-deleteIcon": {
+                        fontSize: 16,
+                        color: "text.secondary",
+                        "&:hover": {
+                          color: "text.primary",
                         },
                       },
-                      "& input::placeholder": {
-                        color: "white",
-                        opacity: 1,
-                      },
-                    },
-                  }}
-                />
-              )}
-              sx={{
-                "& .MuiAutocomplete-endAdornment": {
-                  color: "white",
-                },
-                "& .MuiAutocomplete-clearIndicator": {
-                  color: "rgba(255, 255, 255, 0.7)",
-                  "&:hover": {
-                    color: "white",
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  },
-                },
-                "& .MuiAutocomplete-popupIndicator": {
-                  color: "rgba(255, 255, 255, 0.7)",
-                  "&:hover": {
-                    color: "white",
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  },
-                },
-              }}
-              ListboxProps={{
-                style: {
-                  backgroundColor: "#383838", // Ensure dropdown matches
-                },
-              }}
-            />
-          </FormControl>
+                    }}
+                  />
+                )
+              })
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Creative"
+                placeholder={selectedCreatives.length === 0 ? "Search to Select" : ""}
+                variant="outlined"
+                fullWidth
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && selectedCreatives.length > 0) {
+                    e.preventDefault()
+                    handleAdd()
+                  }
+                }}
+                // Keep the label floated above the persistent "Search to Select"
+                // placeholder. MUI sizes the notched-outline <legend> from the
+                // label automatically, so the border cuts a proper gap for it.
+                InputLabelProps={{ shrink: true }}
+              />
+            )}
+          />
         </Box>
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
         <Button
           onClick={handleClose}
           sx={{
-            color: "#EF0078",
+            color: "primary.main",
             fontWeight: 500,
             textTransform: "uppercase",
             "&:hover": {
@@ -206,12 +128,11 @@ export function AddCreativeDialog({ open, onClose, onAdd, options }: AddCreative
           onClick={handleAdd}
           disabled={selectedCreatives.length === 0}
           sx={{
-            color: "white",
             fontWeight: 500,
             textTransform: "uppercase",
             opacity: selectedCreatives.length === 0 ? 0.5 : 1,
             "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              backgroundColor: "action.hover",
             },
           }}
         >

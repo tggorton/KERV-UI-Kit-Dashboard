@@ -143,8 +143,6 @@ export function DatePickerDialog({
       }}
       PaperProps={{
         sx: {
-          bgcolor: "#333333",
-          color: "white",
           width: "320px",
           maxWidth: "90vw",
           mt: 1, // Add margin top for spacing from the anchor
@@ -172,13 +170,13 @@ export function DatePickerDialog({
               mb: 2,
             }}
           >
-            <IconButton onClick={handlePrevMonth} sx={{ color: "white" }}>
+            <IconButton onClick={handlePrevMonth}>
               <ChevronLeftIcon />
             </IconButton>
             <Typography variant="h6">
               {viewDate.toLocaleString("default", { month: "long", year: "numeric" })}
             </Typography>
-            <IconButton onClick={handleNextMonth} sx={{ color: "white" }}>
+            <IconButton onClick={handleNextMonth}>
               <ChevronRightIcon />
             </IconButton>
           </Box>
@@ -193,7 +191,7 @@ export function DatePickerDialog({
             }}
           >
             {["S", "M", "T", "W", "T", "F", "S"].map((day, i) => (
-              <Typography key={i} variant="caption" sx={{ textAlign: "center", color: "#cdcdcd" }}>
+              <Typography key={i} variant="caption" sx={{ textAlign: "center", color: "text.secondary" }}>
                 {day}
               </Typography>
             ))}
@@ -227,17 +225,16 @@ export function DatePickerDialog({
                       height: 30,
                       p: 0,
                       borderRadius: "50%",
-                      color: "white",
                       backgroundColor: isCurrentDay(day)
-                        ? "#ef0078"
+                        ? "primary.main"
                         : isTodayDate(day)
                           ? "rgba(239, 0, 120, 0.2)"
                           : "transparent",
                       "&:hover": {
-                        backgroundColor: isCurrentDay(day) ? "#d82388" : "rgba(255, 255, 255, 0.1)",
+                        backgroundColor: isCurrentDay(day) ? "primary.dark" : "action.hover",
                       },
                       "&.Mui-disabled": {
-                        color: "rgba(255, 255, 255, 0.3)",
+                        color: "text.disabled",
                       },
                     }}
                   >
@@ -256,7 +253,7 @@ export function DatePickerDialog({
           <Button
             onClick={onClose}
             sx={{
-              color: "#ef0078",
+              color: "primary.main",
               "&:hover": {
                 backgroundColor: "rgba(239, 0, 120, 0.1)",
               },
@@ -275,12 +272,6 @@ export function DatePickerDialog({
 
                 onSelect(selectedDate)
               }
-            }}
-            sx={{
-              color: "white",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-              },
             }}
           >
             SELECT

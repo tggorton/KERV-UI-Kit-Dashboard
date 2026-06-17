@@ -24,6 +24,8 @@ import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
 import Chip from "@mui/material/Chip"
 
+import { GlassCard } from "@kerv/ui-kit"
+
 // MUI Icons
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
@@ -399,33 +401,33 @@ export default function KervDashboard() {
   }
 
   return (
-    <div style={{ 
-      display: "flex", 
-      height: "100vh", 
-      backgroundColor: "#000000", // Renamed bgcolor to backgroundColor
+    <div style={{
+      display: "flex",
+      height: "100vh",
       overflow: "hidden", // Prevent overall overflow
     }}>
       <Sidebar />
-      <Box sx={{ 
-        flexGrow: 1, 
-        display: "flex", 
-        flexDirection: "column", 
+      <Box sx={{
+        flexGrow: 1,
+        display: "flex",
+        flexDirection: "column",
         overflow: "visible",
         minWidth: 0, // Allow content to shrink below its minimum content size
       }}>
         {/* Header */}
         <AppBar
           position="static"
+          color="transparent"
+          elevation={0}
           sx={{
             boxShadow: "none",
-            bgcolor: "#000000",
+            bgcolor: "transparent",
             zIndex: 1100,
           }}
         >
           <Toolbar
             sx={{
               minHeight: 144,
-              bgcolor: "#000000",
               pr: 10,
               display: "flex",
               flexDirection: "column",  // Explicitly set column layout
@@ -448,12 +450,12 @@ export default function KervDashboard() {
                   color="inherit"
                   onClick={() => setHasNotifications(!hasNotifications)}
                   sx={{
-                    color: hasNotifications ? "#EF0078" : "white",
+                    color: hasNotifications ? "primary.main" : "text.secondary",
                   }}
                 >
                   <NotificationsOutlinedIcon
                     sx={{
-                      color: hasNotifications ? "#EF0078" : "white",
+                      color: hasNotifications ? "primary.main" : "text.secondary",
                       ...(hasNotifications && { fontWeight: "bold" }),
                     }}
                   />
@@ -472,7 +474,6 @@ export default function KervDashboard() {
             >
               <Box
                 sx={{
-                  bgcolor: "#1e1e1e",
                   width: 24,
                   height: 24,
                   display: "flex",
@@ -493,9 +494,8 @@ export default function KervDashboard() {
                   size="small"
                   sx={{
                     ml: 1,
-                    color: "white",
                     "&:hover": {
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      backgroundColor: "action.hover",
                     },
                   }}
                 >
@@ -512,8 +512,6 @@ export default function KervDashboard() {
           onClose={() => setIsEditingTitle(false)}
           PaperProps={{
             sx: {
-              bgcolor: "#333333",
-              color: "white",
               width: "500px",
               maxWidth: "90vw",
             },
@@ -532,74 +530,35 @@ export default function KervDashboard() {
                   handleSaveTitle()
                 }
               }}
-              sx={{
-                mt: 2,
-                "& .MuiOutlinedInput-root": {
-                  color: "white",
-                  "& fieldset": {
-                    borderColor: "rgba(255, 255, 255, 0.3)",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgba(255, 255, 255, 0.5)",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#EF0078",
-                  },
-                },
-              }}
+              sx={{ mt: 2 }}
             />
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 2 }}>
-            <Button
-              onClick={() => setIsEditingTitle(false)}
-              sx={{
-                color: "#EF0078",
-                "&:hover": {
-                  backgroundColor: "rgba(239, 0, 120, 0.1)",
-                },
-              }}
-            >
+            <Button onClick={() => setIsEditingTitle(false)}>
               Cancel
             </Button>
-            <Button
-              onClick={handleSaveTitle}
-              sx={{
-                color: "white",
-                "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                },
-              }}
-            >
+            <Button onClick={handleSaveTitle} variant="contained">
               Save
             </Button>
           </DialogActions>
         </Dialog>
 
         {/* Main content */}
-        <Box sx={{ flexGrow: 1, overflow: "auto", p: 3, pr: 10, pt: 4, maxHeight: "calc(100vh - 144px)", bgcolor: "#000000" }}>
+        <Box sx={{ flexGrow: 1, overflow: "auto", p: 3, pr: 10, pt: 4, maxHeight: "calc(100vh - 144px)" }}>
           {/* Changed pt from default 3 (12px) to 16 (64px) to add 50px more space */}
           {/* Added 40px (pr: 10) to the right padding */}
           {/* Action buttons */}
           <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 3, gap: 2 }}>
             <Tooltip title="Clone this line item to create a duplicate">
               <span style={{ display: "inline-block" }}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#EF0078",
-                    color: "black",
-                    "&:hover": {
-                      backgroundColor: "#ED005E",
-                    },
-                  }}
-                >
+                <Button variant="contained">
                   Clone This Line Item
                 </Button>
               </span>
             </Tooltip>
           </Box>
           {/* Line Item Details */}
-          <Paper sx={{ mb: 4, bgcolor: "#121212" }}>
+          <GlassCard variant="card" sx={{ mb: 4, p: 3 }}>
             <LineItemDetails
               id="18"
               defaultCreativeInfo={getDefaultCreativeInfo()}
@@ -612,7 +571,7 @@ export default function KervDashboard() {
               startDate={lineItemStartDate}
               endDate={lineItemEndDate}
             />
-          </Paper>
+          </GlassCard>
           {/* Creatives Section */}
           <Box sx={{ mb: 16 }}>
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
@@ -621,14 +580,7 @@ export default function KervDashboard() {
               </Typography>
               <Tooltip title="Add one or more creatives to this line item">
                 <span style={{ display: "inline-block" }}>
-                  <Button variant="outlined" onClick={() => setAddDialogOpen(true)} sx={{
-                     color: "#EF0078",
-                     borderColor: "#EF0078",
-                     "&:hover": {
-                       borderColor: "#EF0078",
-                       backgroundColor: "rgba(239, 0, 120, 0.1)",
-                     },
-                   }}>
+                  <Button variant="outlined" onClick={() => setAddDialogOpen(true)}>
                     Add Creative
                   </Button>
                 </span>
@@ -637,27 +589,10 @@ export default function KervDashboard() {
             <TableContainer
               component={Paper}
               sx={{
-                bgcolor: "transparent",
-                background: "transparent",
                 boxShadow: "none",
-                border: "none",
-                "& .MuiTable-root": {
-                  borderCollapse: "collapse",
-                  "& .MuiTableCell-root": {
-                    borderBottom: "1px solid rgba(93, 93, 93, 0.3)",
-                    padding: "12px 16px",
-                  },
-                  "& .MuiTableHead-root": {
-                    "& .MuiTableCell-root": {
-                      borderBottom: "1px solid #5d5d5d",
-                      color: "#cdcdcd",
-                    },
-                  },
-                  "& .MuiTableBody-root": {
-                    "& .MuiTableRow-root:last-child .MuiTableCell-root": {
-                      borderBottom: "none",
-                    },
-                  },
+                background: "transparent",
+                "& .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root": {
+                  borderBottom: "none",
                 },
               }}
             >
@@ -677,13 +612,13 @@ export default function KervDashboard() {
                             onClick={resetAllCustomWeights}
                             disabled={creatives.length <= 1}
                             sx={{
-                              color: "rgba(255, 255, 255, 0.7)",
+                              color: "text.secondary",
                               "&:hover": {
-                                color: "#EF0078",
+                                color: "primary.main",
                                 backgroundColor: "rgba(239, 0, 120, 0.1)",
                               },
                               "&.Mui-disabled": {
-                                color: "rgba(255, 255, 255, 0.3)",
+                                color: "text.disabled",
                                 pointerEvents: "none"
                               },
                             }}
@@ -712,9 +647,9 @@ export default function KervDashboard() {
                                 size="small"
                                 onClick={() => handleOpenDeleteDialog(creative.id)}
                                 sx={{
-                                  color: "rgba(255, 255, 255, 0.5)",
+                                  color: "text.secondary",
                                   "&:hover": {
-                                    color: "#EF0078",
+                                    color: "primary.main",
                                   },
                                 }}
                               >
@@ -729,7 +664,7 @@ export default function KervDashboard() {
                             <Box
                               component="span"
                               sx={{
-                                color: "#EF0078",
+                                color: "primary.main",
                                 cursor: "pointer",
                                 textDecoration: "none",
                                 "&:hover": {
@@ -755,9 +690,9 @@ export default function KervDashboard() {
                                 onChange={(e) => handleStatusChange(creative.id, e.target.checked)}
                                 disabled={creatives.length === 1}
                                 sx={{
-                                  color: "#EF0078",
+                                  color: "primary.main",
                                   "&.Mui-checked": {
-                                    color: "#EF0078",
+                                    color: "primary.main",
                                   },
                                   "&.Mui-disabled": {
                                      color: "rgba(239, 0, 120, 0.3)"
@@ -797,26 +732,12 @@ export default function KervDashboard() {
               </Typography>
               <Stack direction="row" spacing={2}>
                 <Tooltip title="Add a new distribution tag">
-                  <Button variant="outlined" sx={{
-                    color: "#EF0078",
-                    borderColor: "#EF0078",
-                    "&:hover": {
-                      borderColor: "#EF0078",
-                      backgroundColor: "rgba(239, 0, 120, 0.1)",
-                    },
-                  }}>
+                  <Button variant="outlined">
                     Add Distribution Tag
                   </Button>
                 </Tooltip>
                 <Tooltip title="Export all distribution tags">
-                  <Button variant="outlined" sx={{
-                    color: "#EF0078",
-                    borderColor: "#EF0078",
-                    "&:hover": {
-                      borderColor: "#EF0078",
-                      backgroundColor: "rgba(239, 0, 120, 0.1)",
-                    },
-                  }}>
+                  <Button variant="outlined">
                     Export Distribution Tags
                   </Button>
                 </Tooltip>
@@ -825,27 +746,10 @@ export default function KervDashboard() {
             <TableContainer
               component={Paper}
               sx={{
-                bgcolor: "transparent",
-                background: "transparent",
                 boxShadow: "none",
-                border: "none",
-                "& .MuiTable-root": {
-                  borderCollapse: "collapse",
-                  "& .MuiTableCell-root": {
-                    borderBottom: "1px solid rgba(93, 93, 93, 0.3)",
-                    padding: "12px 16px",
-                  },
-                  "& .MuiTableHead-root": {
-                    "& .MuiTableCell-root": {
-                      borderBottom: "1px solid #5d5d5d",
-                      color: "#cdcdcd",
-                    },
-                  },
-                  "& .MuiTableBody-root": {
-                    "& .MuiTableRow-root:last-child .MuiTableCell-root": {
-                      borderBottom: "none",
-                    },
-                  },
+                background: "transparent",
+                "& .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root": {
+                  borderBottom: "none",
                 },
               }}
             >
@@ -881,50 +785,22 @@ export default function KervDashboard() {
               </Typography>
               <Stack direction="row" spacing={2}>
                 <Tooltip title="Import pixels from external source">
-                  <Button variant="outlined" sx={{
-                    color: "#EF0078",
-                    borderColor: "#EF0078",
-                    "&:hover": {
-                      borderColor: "#EF0078",
-                      backgroundColor: "rgba(239, 0, 120, 0.1)",
-                    },
-                  }}>
+                  <Button variant="outlined">
                     Import Pixels
                   </Button>
                 </Tooltip>
                 <Tooltip title="Export CSV template for pixels">
-                  <Button variant="outlined" sx={{
-                    color: "#EF0078",
-                    borderColor: "#EF0078",
-                    "&:hover": {
-                      borderColor: "#EF0078",
-                      backgroundColor: "rgba(239, 0, 120, 0.1)",
-                    },
-                  }}>
+                  <Button variant="outlined">
                     Export CSV Template
                   </Button>
                 </Tooltip>
                 <Tooltip title="Link existing event pixels">
-                  <Button variant="outlined" sx={{
-                    color: "#EF0078",
-                    borderColor: "#EF0078",
-                    "&:hover": {
-                      borderColor: "#EF0078",
-                      backgroundColor: "rgba(239, 0, 120, 0.1)",
-                    },
-                  }}>
+                  <Button variant="outlined">
                     Link Event Pixels
                   </Button>
                 </Tooltip>
                 <Tooltip title="Create a new event pixel">
-                  <Button variant="outlined" sx={{
-                    color: "#EF0078",
-                    borderColor: "#EF0078",
-                    "&:hover": {
-                      borderColor: "#EF0078",
-                      backgroundColor: "rgba(239, 0, 120, 0.1)",
-                    },
-                  }}>
+                  <Button variant="outlined">
                     Create Event Pixel
                   </Button>
                 </Tooltip>
@@ -933,27 +809,10 @@ export default function KervDashboard() {
             <TableContainer
               component={Paper}
               sx={{
-                bgcolor: "transparent",
-                background: "transparent",
                 boxShadow: "none",
-                border: "none",
-                "& .MuiTable-root": {
-                  borderCollapse: "collapse",
-                  "& .MuiTableCell-root": {
-                    borderBottom: "1px solid rgba(93, 93, 93, 0.3)",
-                    padding: "12px 16px",
-                  },
-                  "& .MuiTableHead-root": {
-                    "& .MuiTableCell-root": {
-                      borderBottom: "1px solid #5d5d5d",
-                      color: "#cdcdcd",
-                    },
-                  },
-                  "& .MuiTableBody-root": {
-                    "& .MuiTableRow-root:last-child .MuiTableCell-root": {
-                      borderBottom: "none",
-                    },
-                  },
+                background: "transparent",
+                "& .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root": {
+                  borderBottom: "none",
                 },
               }}
             >
@@ -1024,10 +883,6 @@ export default function KervDashboard() {
         onClose={() => setDeleteDialogOpen(false)}
         PaperProps={{
           sx: {
-            bgcolor: "#383838",
-            background: "#383838",
-            backgroundColor: "#383838",
-            color: "white",
             width: "400px",
             maxWidth: "90vw",
           },
@@ -1035,31 +890,15 @@ export default function KervDashboard() {
       >
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
-          <DialogContentText sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
+          <DialogContentText sx={{ color: "text.secondary" }}>
             Are you sure you want to delete this creative? This action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button
-            onClick={() => setDeleteDialogOpen(false)}
-            sx={{
-              color: "#EF0078",
-              "&:hover": {
-                backgroundColor: "rgba(239, 0, 120, 0.1)",
-              },
-            }}
-          >
+          <Button onClick={() => setDeleteDialogOpen(false)}>
             Cancel
           </Button>
-          <Button
-            onClick={handleDeleteCreative}
-            sx={{
-              color: "white",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-              },
-            }}
-          >
+          <Button onClick={handleDeleteCreative} variant="contained" color="error">
             Delete
           </Button>
         </DialogActions>

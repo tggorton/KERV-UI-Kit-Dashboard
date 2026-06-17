@@ -1,102 +1,59 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
+import { useRouter, usePathname } from "next/navigation"
 import Box from "@mui/material/Box"
 import Tooltip from "@mui/material/Tooltip"
+import IconButton from "@mui/material/IconButton"
+import { useGlass } from "@kerv/ui-kit"
+
+// MUI icons mapped to each nav destination
+import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined"
+import MovieOutlinedIcon from "@mui/icons-material/MovieOutlined"
+import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined"
+import TrackChangesOutlinedIcon from "@mui/icons-material/TrackChangesOutlined"
+import DonutLargeOutlinedIcon from "@mui/icons-material/DonutLargeOutlined"
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined"
+import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined"
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined"
+import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined"
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined"
+import type { SvgIconComponent } from "@mui/icons-material"
+
+interface NavItem {
+  id: string
+  tooltip: string
+  Icon: SvgIconComponent
+  /** If set, clicking the icon navigates here. Otherwise it just toggles active state. */
+  route?: string
+}
 
 export default function Sidebar() {
-  const [firstIconTop, setFirstIconTop] = useState(180)
-  const sidebarRef = useRef<HTMLDivElement>(null)
-  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
+  const router = useRouter()
+  const pathname = usePathname()
+  const [activeIcon, setActiveIcon] = useState<string | null>("creatives")
+  const rail = useGlass("rail")
 
-  // Navigation items with icons and tooltips
-  const navItems = [
-    {
-      icon: "advertisers",
-      tooltip: "Advertisers",
-      normalUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/advertisers-EC4ZJ9kp79Ke3WTLMlrHY3eywSwYap.png",
-      hoverUrl:
-        "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/advertisers-EC4ZJ9kp79Ke3WTLMlrHY3eywSwYap.png", // Using same URL for hover until hover versions are provided
-    },
-    {
-      icon: "creatives",
-      tooltip: "Creatives",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/creatives-Xqkj3NjXpc79TcEuz3XEanlm6hWuhX.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/creatives-Xqkj3NjXpc79TcEuz3XEanlm6hWuhX.png",
-    },
-    {
-      icon: "io-tool",
-      tooltip: "IO Tool",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/io-tool-iGbeIPETENaG3HMc4vqIkepLZlAumI.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/io-tool-iGbeIPETENaG3HMc4vqIkepLZlAumI.png",
-    },
-    {
-      icon: "pixels",
-      tooltip: "Pixels",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pixels-XCMiqGo4zuv0I1nxQGI069kc9jznCR.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/pixels-XCMiqGo4zuv0I1nxQGI069kc9jznCR.png",
-    },
-    {
-      icon: "segments",
-      tooltip: "Segments",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/segments-p2FLgDddfptE6Epdo4BGIGYmn4tUfY.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/segments-p2FLgDddfptE6Epdo4BGIGYmn4tUfY.png",
-    },
-    {
-      icon: "products",
-      tooltip: "Products",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/products-G3JPk9tRbj92OSOQK4LNsF0HsWOySS.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/products-G3JPk9tRbj92OSOQK4LNsF0HsWOySS.png",
-    },
-    {
-      icon: "reporting",
-      tooltip: "Reporting",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/reporting-KXnw1mzm7NbKEH54WguCFNxIHNz9Iz.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/reporting-KXnw1mzm7NbKEH54WguCFNxIHNz9Iz.png",
-    },
-    {
-      icon: "admin",
-      tooltip: "Admin",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/admin-lU7qIzZqk8v4Bs96p2D7m8v5rtGykC.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/admin-lU7qIzZqk8v4Bs96p2D7m8v5rtGykC.png",
-    },
-    {
-      icon: "support",
-      tooltip: "Support",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/support-8m3XYHIj6J8jOxYru251SigB0Bn8cS.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/support-8m3XYHIj6J8jOxYru251SigB0Bn8cS.png",
-    },
-    {
-      icon: "logout",
-      tooltip: "Logout",
-      normalUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logout-8kRgp4U9Xb7A8c3iVYAxgw8CinX9tG.png",
-      hoverUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logout-8kRgp4U9Xb7A8c3iVYAxgw8CinX9tG.png",
-    },
+  // Navigation items with MUI icons and tooltips
+  const navItems: NavItem[] = [
+    { id: "advertisers", tooltip: "Advertisers", Icon: BusinessOutlinedIcon },
+    { id: "creatives", tooltip: "Creatives", Icon: MovieOutlinedIcon },
+    { id: "io-tool", tooltip: "IO Tool", Icon: ReceiptLongOutlinedIcon },
+    { id: "pixels", tooltip: "Pixels", Icon: TrackChangesOutlinedIcon },
+    // Repurposed: this icon now opens the live UI-kit gallery.
+    { id: "ui-kit", tooltip: "UI Kit", Icon: DonutLargeOutlinedIcon, route: "/ui-kit" },
+    { id: "products", tooltip: "Products", Icon: CategoryOutlinedIcon },
+    { id: "reporting", tooltip: "Reporting", Icon: AssessmentOutlinedIcon },
+    { id: "admin", tooltip: "Admin", Icon: AdminPanelSettingsOutlinedIcon },
+    { id: "support", tooltip: "Support", Icon: SupportAgentOutlinedIcon },
+    { id: "logout", tooltip: "Logout", Icon: LogoutOutlinedIcon },
   ]
-
-  // Effect to find the Line Item Details box and align the first icon with it
-  useEffect(() => {
-    const findLineItemDetailsBox = () => {
-      const lineItemDetailsBox = document.querySelector('div[class*="MuiPaper-root"]')
-      if (lineItemDetailsBox) {
-        const lineItemDetailsTop = lineItemDetailsBox.getBoundingClientRect().top
-        // Add a small offset to ensure the first icon isn't clipped
-        setFirstIconTop(lineItemDetailsTop + 20)
-      }
-    }
-
-    findLineItemDetailsBox()
-    window.addEventListener("resize", findLineItemDetailsBox)
-    return () => window.removeEventListener("resize", findLineItemDetailsBox)
-  }, [])
 
   return (
     <Box
-      ref={sidebarRef}
       sx={{
+        ...rail,
         width: 80,
-        bgcolor: "#001529",
         height: "100vh",
         position: "relative",
         display: "flex",
@@ -107,8 +64,12 @@ export default function Sidebar() {
         flexShrink: 0, // Prevent sidebar from shrinking too much
       }}
     >
-      {/* KERV Logo */}
+      {/* KERV Logo — click to return to the dashboard */}
+      <Tooltip title="Dashboard" placement="right" arrow>
       <Box
+        role="button"
+        aria-label="Go to dashboard"
+        onClick={() => router.push("/")}
         sx={{
           position: "absolute",
           top: 42,
@@ -119,6 +80,7 @@ export default function Sidebar() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          cursor: "pointer",
         }}
       >
         <svg
@@ -141,6 +103,7 @@ export default function Sidebar() {
           <polygon fill="#e64d9b" points="662.87 0 331.45 331.46 331.45 0 662.87 0" />
         </svg>
       </Box>
+      </Tooltip>
 
       {/* Navigation Icons Container */}
       <Box
@@ -153,7 +116,7 @@ export default function Sidebar() {
           flexDirection: "column",
           alignItems: "center",
           overflowY: "auto", // Enable vertical scrolling
-          // Add custom scrollbar styling
+          // Add custom scrollbar styling (kit-style hairline thumb)
           "&::-webkit-scrollbar": {
             width: "6px",
           },
@@ -161,11 +124,11 @@ export default function Sidebar() {
             background: "transparent",
           },
           "&::-webkit-scrollbar-thumb": {
-            background: "rgba(255, 255, 255, 0.2)",
+            background: "rgba(0, 0, 0, 0.18)",
             borderRadius: "3px",
           },
           "&::-webkit-scrollbar-thumb:hover": {
-            background: "rgba(255, 255, 255, 0.3)",
+            background: "rgba(0, 0, 0, 0.28)",
           },
           // Add padding to ensure icons aren't clipped
           padding: "10px 10px 20px 10px",
@@ -177,67 +140,36 @@ export default function Sidebar() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 4,
+            gap: 2.5,
             width: "100%",
           }}
         >
-          {navItems.map((item, index) => (
-            <Tooltip key={index} title={item.tooltip} placement="right" arrow>
-              <Box
-                sx={{
-                  width: 24,
-                  height: 24,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  // Make sure icons stay centered and visible
-                  margin: "0 auto",
-                  position: "relative",
-                }}
-                onMouseEnter={() => setHoveredIcon(item.icon)}
-                onMouseLeave={() => setHoveredIcon(null)}
-              >
-                {/* Normal state image */}
-                <Box
-                  component="img"
-                  src={item.normalUrl}
-                  alt={`${item.tooltip} Icon`}
+          {navItems.map(({ id, tooltip, Icon, route }) => {
+            const isActive = route ? pathname === route : pathname === "/" && activeIcon === id
+            return (
+              <Tooltip key={id} title={tooltip} placement="right" arrow>
+                <IconButton
+                  aria-label={tooltip}
+                  onClick={() => (route ? router.push(route) : setActiveIcon(id))}
                   sx={{
-                    maxWidth: 24,
-                    maxHeight: 24,
-                    width: "auto",
-                    height: "auto",
-                    position: "absolute",
-                    opacity: hoveredIcon === item.icon ? 0 : 1,
-                    transition: "opacity 0.2s ease",
-                    objectFit: "contain",
+                    width: 44,
+                    height: 44,
+                    color: isActive ? "primary.main" : "text.secondary",
+                    backgroundColor: isActive ? "primary.hover" : "transparent",
+                    transition: "color 0.2s ease, background-color 0.2s ease",
+                    "&:hover": {
+                      color: "primary.main",
+                      backgroundColor: "primary.hover",
+                    },
                   }}
-                />
-
-                {/* Hover state image - using a pink filter for hover effect */}
-                <Box
-                  component="img"
-                  src={item.hoverUrl}
-                  alt={`${item.tooltip} Icon (Hover)`}
-                  sx={{
-                    maxWidth: 24,
-                    maxHeight: 24,
-                    width: "auto",
-                    height: "auto",
-                    position: "absolute",
-                    opacity: hoveredIcon === item.icon ? 1 : 0,
-                    transition: "opacity 0.2s ease",
-                    filter: "invert(27%) sepia(100%) saturate(7057%) hue-rotate(322deg) brightness(99%) contrast(100%)", // Pink filter for hover effect
-                    objectFit: "contain",
-                  }}
-                />
-              </Box>
-            </Tooltip>
-          ))}
+                >
+                  <Icon sx={{ fontSize: 24 }} />
+                </IconButton>
+              </Tooltip>
+            )
+          })}
         </Box>
       </Box>
     </Box>
   )
 }
-

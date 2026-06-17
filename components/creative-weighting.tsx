@@ -35,7 +35,7 @@ export function CreativeWeighting({
           sx={{
             display: "flex",
             alignItems: "center",
-            color: "rgba(255, 255, 255, 0.5)",
+            color: "text.secondary",
           }}
         >
           - <PercentIcon fontSize="small" sx={{ color: "rgba(239, 0, 120, 0.5)", ml: 0.5 }} />
@@ -53,10 +53,9 @@ export function CreativeWeighting({
           sx={{
             display: "flex",
             alignItems: "center",
-            color: "white",
           }}
         >
-          100 <PercentIcon fontSize="small" sx={{ color: "#EF0078", ml: 0.5 }} />
+          100 <PercentIcon fontSize="small" sx={{ color: "primary.main", ml: 0.5 }} />
         </Typography>
       </Tooltip>
     )
@@ -70,12 +69,12 @@ export function CreativeWeighting({
           position: "relative",
           display: "flex",
           alignItems: "center",
-          backgroundColor: isEditing ? "#1e1e1e" : "transparent",
+          backgroundColor: isEditing ? "action.hover" : "transparent",
           borderRadius: "4px",
           padding: "4px 8px",
           gap: 2,
           "&:hover": {
-            backgroundColor: "#1e1e1e",
+            backgroundColor: "action.hover",
           },
         }}
       >
@@ -115,7 +114,6 @@ export function CreativeWeighting({
             max: 100,
             style: {
               textAlign: "center",
-              color: "white",
               width: "32px",
               MozAppearance: "textfield",
             },
@@ -159,10 +157,9 @@ export function CreativeWeighting({
                 padding: 0,
                 minWidth: "16px",
                 minHeight: "16px",
-                color: "white",
                 "&:hover": {
                   backgroundColor: "transparent",
-                  color: "#EF0078",
+                  color: "primary.main",
                 },
               }}
             >
@@ -188,10 +185,9 @@ export function CreativeWeighting({
                 padding: 0,
                 minWidth: "16px",
                 minHeight: "16px",
-                color: "white",
                 "&:hover": {
                   backgroundColor: "transparent",
-                  color: "#EF0078",
+                  color: "primary.main",
                 },
               }}
             >
@@ -211,7 +207,7 @@ export function CreativeWeighting({
         <PercentIcon
           fontSize="small"
           sx={{
-            color: "#EF0078",
+            color: "primary.main",
             fontSize: "16px",
             pointerEvents: "none",
           }}

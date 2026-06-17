@@ -25,3 +25,25 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# OS / editor junk
+.DS_Store
+**/.DS_Store
+
+# Python (stray Flask experiment that lives in this folder; not part of the app)
+venv/
+__pycache__/
+*.pyc
+
+# local logs / scratch
+error_log.txt
+error_logs.txt
+Desktop/
+
+# Unrelated experiments / scaffolding kept out of this repo (still on disk locally)
+/app.py
+/index.html
+/script.js
+/styles.css
+/requirements.txt
+/src/
